@@ -28,22 +28,33 @@ class CodeSonifier {
     traverseNode(node: acorn.Node, time = 0) {
         switch (node.type) {
             case 'Program':
-                node.body.forEach((childNode, index) => {
-                    this.traverseNode(childNode, time + index * 0.5);
-                });
+                if ('body' in node) { // Type guard for 'body'
+                    node.body.forEach((childNode: acorn.Node, index: number) => { // Explicitly type childNode and index
+                        this.traverseNode(childNode, time + index * 0.5);
+                    });
+                }
                 break;
             case 'FunctionDeclaration':
-
-                this.addToSequence(['C4', 'E4', 'G4'], time, 0.5);
-                this.traverseNode(node.body, time + 0.5);
+                if ('body' in node) { // Type guard for 'body'
+                    const body = node.body as acorn.Node[]; // Type annotation for 'body'
+                    body.forEach((childNode: acorn.Node, index) => { // Explicitly type childNode
+                        this.traverseNode(childNode, time + index * 0.5);
+                    });
+                }
                 break;
             case 'ForStatement':
 
                 this.addRepeatingNote('A4', time, 0.125, 4);
-                this.traverseNode(node.body, time + 1);
+                if ('body' in node) {
+                    this.traverseNode(node.body, time + 1);
+                }
                 break;
             case 'IfStatement':
-
+                if ('consequent' in node) {
+                if ('alternate' in node) {(node.consequent, time + 0.25);
+                    if ('alternate' in node) {
+                        this.traverseNode(node.alternate, time + 0.5);
+                    }
                 this.addToSequence(['E5'], time, 0.125);
                 this.traverseNode(node.consequent, time + 0.25);
                 if (node.alternate) {
