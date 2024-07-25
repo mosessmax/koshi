@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
-import { CodeSniffer } from 'codeSniffer';
+import { CodeSonifier } from './codeSonifier';
 
 const app = express();
 const port = 3000;
@@ -14,7 +14,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.post('/sonify', (req: Request, res: Response) => {
     const { code } = req.body;
-    const sonifiedCode = new CodeSniffer();
+    const sonifiedCode = new CodeSonifier();
     const result = sonifiedCode.sonify(code);
     res.json(result);
 });

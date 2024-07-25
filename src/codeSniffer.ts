@@ -1,3 +1,0 @@
-playNote
-
-export default codeSniffer;
